@@ -14,27 +14,29 @@ use Illuminate\Support\Arr;
 abstract class HandlerAbstract extends ValidatableHandler {
     private $data = [];
     protected $filteredData = [];
+    protected $overrideData = [];
     protected $object = 'undefined';
     protected $action;
 
     /** @var PresenterAbstract */
     protected $presenter;
 
-    public function __construct($presenter, $data = []) {
+    public function __construct($presenter, $data = [], $overrideData = []) {
         $this->presenter = $presenter;
+        $this->overrideData = $overrideData;
         $this->setData($data);
     }
 
     public static function resolve($action, $params, ...$args) {
-       $handler = new static(...$args);
-       return $handler->execute($action, $params);
+        $handler = new static(...$args);
+        return $handler->execute($action, $params);
     }
 
    /**
     * set data and apply the filter
     */
     public function setData($data, $action = null) {
-        $this->data = $data;
+        $this->data = array_merge($data, $this->overrideData);
         $this->filterData($action);
     }
 
@@ -49,7 +51,7 @@ abstract class HandlerAbstract extends ValidatableHandler {
 
         if (method_exists($this, $actionName)) {
             try {
-                $this->data = $this->filterData();
+                $this->filterData();
                 $fails = $this->validate($action, $params)->fails();
                 if ($fails) {
                     $errors = $this->validator->errors()->messages();
@@ -81,9 +83,11 @@ abstract class HandlerAbstract extends ValidatableHandler {
         $action = $action ? $action : $this->action;
 
         $fields = $this->dataFields($action);
-        $this->filterData = count($fields) == 0
+        $this->filteredData = count($fields) == 0
             ? $this->data
-            : $this->arrayDotOnly($this->data,$fields);
+            : $this->arrayDotOnly($this->data, $fields);
+
+        // lad($this->data, $this->filteredData);
 
         return $this;
     }
