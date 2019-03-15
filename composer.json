@@ -20,5 +20,10 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Package\\": "src/"
+        }
     }
 }

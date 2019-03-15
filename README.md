@@ -1,6 +1,11 @@
 # Introduction 
 Laravel handler enable you to structure you code as packages
 
+- install :
+``` 
+composer require drkwolf/laravel-handler:dev-master
+```
+
 ## structure 
 - app
   - packages
