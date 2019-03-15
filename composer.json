@@ -3,6 +3,7 @@
     "description": "Laravel package, module helper",
     "keywords": [ "Laravel", "package", "module", "code structure" ],
     "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "drkwolf",
