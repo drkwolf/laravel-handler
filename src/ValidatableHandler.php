@@ -12,7 +12,7 @@ abstract class ValidatableHandler {
 
     protected $validator;
     // protected $response = [];
-    protected $data = [];
+    protected $filteredData = [];
     // protected $response_status = 200;
 
     /**
@@ -22,7 +22,7 @@ abstract class ValidatableHandler {
     abstract public function rules($action = null, $params = []);
 
     public function validate($action = null, $params = []) {
-        $this->validator =  \Validator::make($this->data, $this->rules($action, $params));
+        $this->validator =  \Validator::make($this->filteredData, $this->rules($action, $params));
         return $this->validator;
     }
 

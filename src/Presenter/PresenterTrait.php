@@ -1,6 +1,6 @@
 <?php namespace drkwolf\Package\Presenter;
 
-use Illuminate\Validation\Validator;
+use drkwolf\Package\FailureTypes;
 
 /**
  * Use case Helper
