@@ -1,4 +1,4 @@
-<?php namespace \drkwolf\Package;
+<?php namespace drkwolf\Package;
 
 /**
  * Use case Helper
