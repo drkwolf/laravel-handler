@@ -4,7 +4,7 @@
     "keywords": [ "Laravel", "package", "module", "code structure" ],
     "license": "MIT",
     "minimum-stability": "dev",
-    "prefer-stable": true ,
+    "prefer-stable": true,
     "authors": [
         {
             "name": "drkwolf",
