@@ -1,6 +1,6 @@
 {
     "name": "drkwolf/laravel-handler",
-    "description": "Laravel package, module helper",
+    "description": "Laravel package, module helper, structured package",
     "keywords": [ "Laravel", "package", "module", "code structure" ],
     "license": "MIT",
     "minimum-stability": "dev",
