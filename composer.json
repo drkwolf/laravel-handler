@@ -1,6 +1,7 @@
 {
     "name": "drkwolf/laravel-handler",
     "description": "Laravel package, module helper",
+    "keywords": [ "Laravel", "package", "module", "code structure" ],
     "license": "MIT",
     "authors": [
         {
@@ -8,7 +9,6 @@
             "email": "drkwolf@gmail.com"
         }
     ],
-    "minimum-stability": "beta",
     "require": {
         "php": ">=7.2.0",
         "illuminate/support": "^5.7",

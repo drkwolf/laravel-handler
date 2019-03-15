@@ -1,4 +1,14 @@
 # Introduction 
+Laravel handler enable you to structure you code as packages
+
+## structure 
+- app
+  - packages
+    - package_name
+      - Entities
+      - Events
+      - Presenters
+      - Controllers
 
 ```php
 
