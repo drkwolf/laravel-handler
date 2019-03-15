@@ -1,4 +1,4 @@
-<?php namespace App\Packages\Package\Presenter;
+<?php namespace drkwolf\Package\Presenter;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;

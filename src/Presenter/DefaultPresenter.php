@@ -1,6 +1,4 @@
-<?php namespace App\Packages\Package\Presenter;
-
-use App\Packages\Package\Presenter\PresenterAbstract;
+<?php namespace drkwolf\Package\Presenter;
 
 class DefaultPresenter extends PresenterAbstract {
 
