@@ -1,6 +1,7 @@
 <?php namespace drkwolf\Package\Presenter;
 
 use drkwolf\Package\FailureTypes;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Use case Helper
@@ -37,9 +38,25 @@ trait PresenterTrait {
         return [
             'type'      => $this->when($type, $type),
             'object'    => $this->when($object, $object),
-            'errors'    => $this->resource
+            'errors'    => $this->resource->errors()->messages()
         ];
     }
+
+    public function throwExceptionIfInvalid() {
+        if ($this->isValid) {
+            return false;
+        } else {
+                // response()->json($this->failureResponse('validation'))
+            throw new ValidationException(
+                $this->resource,
+                response()->json(
+                    $this->failureResponse(),
+                    422
+                )
+            );
+        }
+    }
+
 
     public function toArray($request) {
         if ($this->isValid) {

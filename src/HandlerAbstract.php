@@ -54,8 +54,8 @@ abstract class HandlerAbstract extends ValidatableHandler {
                 $this->filterData();
                 $fails = $this->validate($action, $params)->fails();
                 if ($fails) {
-                    $errors = $this->validator->errors()->messages();
-                    $this->presenter->setResource($errors, $action, false);
+                    // $errors = $this->validator->errors()->messages();
+                    $this->presenter->setResource($this->validator, $action, false);
                 } else {
                     $res = $this->{$actionName}($params);
                     $this->presenter->setResource($res, $action, true);
