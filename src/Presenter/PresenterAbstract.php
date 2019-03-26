@@ -21,10 +21,5 @@ abstract class PresenterAbstract extends JsonResource {
     public function __construct($resource = null, Validator $validator = null) {
         parent::__construct($resource);
         $this->assignArrayResource();
-        $this->actionsCollect = collect();
-    }
-
-    public function resetActions() {
-        $this->actionsCollect = collect();
     }
 }
