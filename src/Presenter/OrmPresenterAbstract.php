@@ -4,6 +4,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Validator;
 use drkwolf\Package\FailureTypes;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Use case Helper
@@ -25,12 +26,28 @@ abstract class OrmPresenterAbstract extends JsonResource {
     }
 
 
-    private function getOrmActions() {
+    public function getOrmActions() {
         return $this->ormActions;
     }
 
     private function resetActions() {
         $this->ormActions = collect();
+    }
+
+    public function responseOrFail() {
+        if ($this->isValid) {
+            $this->resetActions();
+            return $this->successResponse();
+        } else {
+                // response()->json($this->failureResponse('validation'))
+            throw new ValidationException(
+                $this->resource,
+                response()->json(
+                    $this->failureResponse(),
+                    422
+                )
+            );
+        }
     }
 
     private function attachDetachAction($name, $entity, $relationship, $key, $data) {

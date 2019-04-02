@@ -1,0 +1,76 @@
+<?php 
+
+use Tests\TestCase;
+
+class CoachHandlerTest extends TestCase {
+
+    public static function createData() {
+        //TODO
+    }
+
+    public static function updateData() {
+        //TODO
+    }
+
+    /** @test */
+    public function should_create_coach() {
+        $event_class = [{{Model}}CreatedEvent::class];
+        \Event::fake($event_class);
+        $presenter = new {{mode}}Presenter();
+        $pm = new {{model}}Handler($presenter, $data, $club->category);
+        $res =  $pm->execute('create')->getData(true);
+
+        // response
+        $this->assertArrayNotHasKey('errors', $res);
+        $this->assertArraySubset([
+            'actions' => [
+                [
+//                    'name' => 'insert', 'entity' => 'users',
+//                    'data' => []
+                ]
+            ]
+        ], $res);
+
+//        $user = Arr::get($res, 'actions.0.data');
+//       $this->assertArrayHasKey('id', $user);
+        $this->assertArrayHasKey('picture', $user);
+
+        // Player DB
+        $this-> assertDatabaseHas('users', array_only($data, ['first_name', 'birthdate']));
+
+        // Event
+        \Event::assertDispatched($event_class[0], function ($e) use ($user) {
+            return $e->User->id === $user['id'] && $e->role === 'coach';
+        });
+    }
+
+    /** @test */
+    public function should_update_coach() {
+        $role = 'coach';
+        $club = Club::first();
+        $data = self::updateData($club->category, $role);
+
+        \Event::fake([UserUpdatedEvent::class]);
+        $presenter = new UserPresenter();
+        $pm = new CoachHandler($presenter, $data, $club->category, $data['id']);
+        $res =  $pm->execute('update')->getData(true);
+
+        // response
+        ///////////
+        $this->assertArrayNotHasKey('errors', $res);
+
+        $actions = collect([
+            ['name' => 'update', 'entity' => 'users']
+        ]);
+
+        $this->assertArraySubset([ 'actions' => $actions->toArray() ], $res);
+
+        // DB
+        $this-> assertDatabaseHas('users', array_only($data, ['id', 'first_name']));
+
+        // Event
+        \Event::assertDispatched(UserUpdatedEvent::class, function ($e) use ($data, $role) {
+            return $e->User->id === $data['id'] && $e->role->getValue() === $role;
+        });
+    }
+}

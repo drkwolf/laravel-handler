@@ -42,6 +42,26 @@ trait PresenterTrait {
         ];
     }
 
+
+    public function responseOrFail() {
+        if ($this->isValid) {
+            return $this->successResponse();
+        } else {
+                // response()->json($this->failureResponse('validation'))
+            throw new ValidationException(
+                $this->resource,
+                response()->json(
+                    $this->failureResponse(),
+                    422
+                )
+            );
+        }
+    }
+
+    /*
+    * @depricated
+    */
+    
     public function throwExceptionIfInvalid() {
         if ($this->isValid) {
             return false;
