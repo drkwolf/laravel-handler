@@ -14,7 +14,6 @@ use Illuminate\Support\Arr;
 abstract class HandlerAbstract extends ValidatableHandler {
     private $data = [];
     protected $filteredData = [];
-    protected $overrideData = [];
     protected $object = 'undefined';
     protected $action;
 
@@ -24,7 +23,7 @@ abstract class HandlerAbstract extends ValidatableHandler {
     public function __construct($presenter, $data = [], $overrideData = []) {
         $this->presenter = $presenter;
         $this->overrideData = $overrideData;
-        $this->setData($data);
+        $this->setData($data, null, $overrideData);
     }
 
     public static function resolve($action, $params, ...$args) {
@@ -35,8 +34,8 @@ abstract class HandlerAbstract extends ValidatableHandler {
    /**
     * set data and apply the filter
     */
-    public function setData($data, $action = null) {
-        $this->data = array_merge($data, $this->overrideData);
+    public function setData($data, $action = null, $overrideData) {
+        $this->data = array_merge($data, $overrideData);
         $this->filterData($action);
     }
 
@@ -92,6 +91,7 @@ abstract class HandlerAbstract extends ValidatableHandler {
         return $this;
     }
 
+    // FIXME Extends Laravel Collection
     private function arrayDotOnly($array, $keys) {
         $newArray = [];
         foreach ((array) $keys as $key) {
