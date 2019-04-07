@@ -23,7 +23,7 @@ abstract class HandlerAbstract extends ValidatableHandler {
     public function __construct($presenter, $data = [], $overrideData = []) {
         $this->presenter = $presenter;
         $this->overrideData = $overrideData;
-        $this->setData($data, null, $overrideData);
+        $this->setData($data, $overrideData);
     }
 
     public static function resolve($action, $params, ...$args) {
@@ -34,9 +34,8 @@ abstract class HandlerAbstract extends ValidatableHandler {
    /**
     * set data and apply the filter
     */
-    public function setData($data, $action = null, $overrideData) {
-        $this->data = array_merge($data, $overrideData);
-        $this->filterData($action);
+    public function setData($data, $overrideData = []) {
+        $this->data =        // lad('email' , $this->attributes['email']); array_merge($data, $overrideData);
     }
 
     /**
@@ -50,7 +49,7 @@ abstract class HandlerAbstract extends ValidatableHandler {
 
         if (method_exists($this, $actionName)) {
             try {
-                $this->filterData();
+                $this->filterData($action);
                 $fails = $this->validate($action, $params)->fails();
                 if ($fails) {
                     // $errors = $this->validator->errors()->messages();
@@ -85,8 +84,6 @@ abstract class HandlerAbstract extends ValidatableHandler {
         $this->filteredData = count($fields) == 0
             ? $this->data
             : $this->arrayDotOnly($this->data, $fields);
-
-        // lad($this->data, $this->filteredData);
 
         return $this;
     }
