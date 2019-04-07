@@ -1,8 +1,5 @@
 <?php namespace drkwolf\Package;
 
-use Illuminate\Validation\ValidationException;
-
-
 /**
  * Use case Helper
 
