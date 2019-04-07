@@ -35,7 +35,7 @@ abstract class HandlerAbstract extends ValidatableHandler {
     * set data and apply the filter
     */
     public function setData($data, $overrideData = []) {
-        $this->data =        // lad('email' , $this->attributes['email']); array_merge($data, $overrideData);
+        $this->data = array_merge($data, $overrideData);
     }
 
     /**
