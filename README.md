@@ -14,6 +14,7 @@ composer require drkwolf/laravel-handler:dev-master
       - Events
       - Presenters
       - Controllers
+      - tests
 
 ```php
 
@@ -38,9 +39,29 @@ class DefaultPresenter extends PresenterAbstract {
     }
 }
 
+class InvoicePresenter extends OrmPresenterAbstract {
+
+    public function successResponse($params = []) {
+        switch ($this->action) {
+            case 'fetchAll':
+                $this->insertAction('invoices', $this->getCollection());
+                $this->insertAction('invoiceItems', new InvoiceItemCollection($this->items));
+                break;
+        }
+        return [ 'actions' => $this->getOrmActions() ];
+    }
+
+    private function getData() {
+        return  [
+            'id' => $this->id,
+        ];
+    }
+}
+
+
 ```
 
-## hanlder Example
+## hanlder example
 
 ```php
 <?php namespace App\Packages\Service;
@@ -68,7 +89,7 @@ class ServiceMembershipHandler extends HandlerAbstract {
     }
 
     protected function dataFields($action = null) {
-        return [ 'providersIds' ];   
+        return [ 'providersIds' ];
     }
 
     public function rules($action = null, $params = []) {
@@ -82,5 +103,36 @@ class ServiceMembershipHandler extends HandlerAbstract {
 
 }
 
+```
 
+## Merging hanlder example
+
+```php
+$actions = collect();
+\DB::beginTransaction();
+try {
+    /*
+    |---------------------------------------------------------------------
+    | Detach from Office
+    |---------------------------------------------------------------------
+    */
+    $presenter = new OfficeMembershipPresenter();
+    $handler = new OfficeMembershipHandler(
+        $presenter,
+        $customers_ids,
+        $office_id,
+        RolesTypes::CUSTOMER
+    );
+
+    $handler->execute('detach');
+    $action = Arr::get($presenter->responseOrFail(), 'actions');
+    $actions = $actions->concat($action);
+
+    \DB::commit();
+} catch (\Illuminate\Validation\ValidationException $e) {
+    \DB::rollback();
+    throw $e;
+}
+
+return response()->json([ 'actions' => $actions ]);
 ```
