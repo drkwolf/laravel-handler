@@ -64,8 +64,11 @@ abstract class HandlerAbstract extends ValidatableHandler {
         } else {
             throw new \InvalidArgumentException("handle method $action missing");
         }
-
-        return $this->presenter->response();
+        if (Arr::get($params, 'response', true)) {
+            return $this->presenter->response();
+        } else {
+            return $this->presenter;
+        }
     }
 
     /**
