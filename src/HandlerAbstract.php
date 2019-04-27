@@ -31,6 +31,11 @@ abstract class HandlerAbstract extends ValidatableHandler {
         return $handler->execute($action, $params);
     }
 
+    public static function makePresenter($action, ...$args) {
+        $handler = new static(...$args);
+        return $handler->execute($action, ['response' => false]);
+    }
+
    /**
     * set data and apply the filter
     */
