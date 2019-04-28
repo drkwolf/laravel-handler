@@ -25,9 +25,13 @@ abstract class OrmPresenterAbstract extends JsonResource {
         $this->assignArrayResource();
     }
 
-
     public function getOrmActions() {
         return $this->ormActions;
+    }
+
+    public function setResource($resource, $action, $isValid = true) {
+        parent::setResource($resource, $action, $isValid);
+        $this->resetActions();
     }
 
     private function resetActions() {
