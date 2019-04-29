@@ -30,7 +30,7 @@ abstract class OrmPresenterAbstract extends JsonResource {
     }
 
     public function setResource($resource, $action, $isValid = true) {
-        parent::setResource($resource, $action, $isValid);
+        $this->setResource($resource, $action, $isValid);
         $this->resetActions();
     }
 
