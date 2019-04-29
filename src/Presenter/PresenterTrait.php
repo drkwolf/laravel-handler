@@ -97,4 +97,12 @@ trait PresenterTrait {
                 $this->isValid? 200 : 422
             );
     }
+
+    public static function collection($collection)
+    {
+        return $collection->map(function ($item) {
+            return (new static($item))->getData();
+        });
+    }
+
 }
