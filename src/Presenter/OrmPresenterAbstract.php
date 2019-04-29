@@ -1,8 +1,6 @@
 <?php namespace drkwolf\Package\Presenter;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
-use Illuminate\Validation\Validator;
 use drkwolf\Package\FailureTypes;
 use Illuminate\Validation\ValidationException;
 
