@@ -13,24 +13,18 @@ use Illuminate\Validation\ValidationException;
  * @date 12/5/18
  * @time 3:47 PM
  */
-abstract class OrmPresenterAbstract extends JsonResource {
-    use PresenterTrait;
+abstract class OrmPresenterAbstract extends PresenterAbstract {
 
     /** @var Collection */
     private $ormActions;
 
-
-    public function __construct($resource = null, Validator $validator = null) {
-        parent::__construct($resource);
-        $this->assignArrayResource();
-    }
 
     public function getOrmActions() {
         return $this->ormActions;
     }
 
     public function setResource($resource, $action, $isValid = true) {
-        $this->setResource($resource, $action, $isValid);
+        parent::setResource($resource, $action, $isValid);
         $this->resetActions();
     }
 
