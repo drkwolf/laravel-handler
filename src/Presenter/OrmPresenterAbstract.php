@@ -21,6 +21,8 @@ abstract class OrmPresenterAbstract extends PresenterAbstract {
         return $this->ormActions;
     }
 
+    abstract public function OrmSuccessResponse($params = []);
+
     public function setResource($resource, $action, $isValid = true) {
         parent::setResource($resource, $action, $isValid);
         $this->resetActions();

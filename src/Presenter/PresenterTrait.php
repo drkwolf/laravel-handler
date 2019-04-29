@@ -34,55 +34,34 @@ trait PresenterTrait {
 
     abstract public function successResponse($params = []);
 
-    public function failureResponse($type = '', $object = '') :array {
-        return [
-            'type'      => $this->when($type, $type),
-            'object'    => $this->when($object, $object),
+    public function failureResponse($asException = false, $type = null) {
+        $response = [
+            'type' => $this->when($type, $type),
             'errors'    => $this->resource->errors()->messages()
         ];
+        if ($asException) {
+            throw new ValidationException(
+                $this->resource,
+                response()->json( $response, 422)
+            );
+        } else {
+            return $response;
+        }
     }
 
-
-    public function responseOrFail() {
+    public function responseOrFail($asException = false) {
         if ($this->isValid) {
             return $this->successResponse();
         } else {
-                // response()->json($this->failureResponse('validation'))
-            throw new ValidationException(
-                $this->resource,
-                response()->json(
-                    $this->failureResponse(),
-                    422
-                )
-            );
+            return $this->failureResponse($asException, FailureTypes::VALIDATION);
         }
     }
-
-    /*
-    * @depricated
-    */
-    
-    public function throwExceptionIfInvalid() {
-        if ($this->isValid) {
-            return false;
-        } else {
-                // response()->json($this->failureResponse('validation'))
-            throw new ValidationException(
-                $this->resource,
-                response()->json(
-                    $this->failureResponse(),
-                    422
-                )
-            );
-        }
-    }
-
 
     public function toArray($request) {
         if ($this->isValid) {
             return $this->successResponse();
         } else {
-            return $this->failureResponse(FailureTypes::VALIDATION);
+            return $this->failureResponse(false, FailureTypes::VALIDATION);
         }
     }
 
