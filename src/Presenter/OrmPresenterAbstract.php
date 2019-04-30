@@ -28,25 +28,25 @@ abstract class OrmPresenterAbstract extends PresenterAbstract {
         $this->resetActions();
     }
 
-    private function resetActions() {
+    protected function resetActions() {
         $this->ormActions = collect();
     }
 
-    public function responseOrFail() {
-        if ($this->isValid) {
-            $this->resetActions();
-            return $this->successResponse();
-        } else {
-                // response()->json($this->failureResponse('validation'))
-            throw new ValidationException(
-                $this->resource,
-                response()->json(
-                    $this->failureResponse(),
-                    422
-                )
-            );
-        }
-    }
+    // public function responseOrFail() {
+    //     if ($this->isValid) {
+    //         $this->resetActions();
+    //         return $this->successResponse();
+    //     } else {
+    //             // response()->json($this->failureResponse('validation'))
+    //         throw new ValidationException(
+    //             $this->resource,
+    //             response()->json(
+    //                 $this->failureResponse(),
+    //                 422
+    //             )
+    //         );
+    //     }
+    // }
 
     private function attachDetachAction($name, $entity, $relationship, $key, $data) {
        return $this->ormActions->push([
